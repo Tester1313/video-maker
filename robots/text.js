@@ -1,6 +1,34 @@
+const fs = require('fs');
 const algoritmia = require('algorithmia')
 const algorithmiaApiKey = require('../credentials/algorithmia.json').apiKey;
+const watsonApiKey = require('../credentials/watson.json').apikey;
 const sentenceBoundaryDetection = require('sbd')
+
+const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
+const { IamAuthenticator } = require('ibm-watson/auth');
+ 
+const nlu = new NaturalLanguageUnderstandingV1({
+  authenticator: new IamAuthenticator({ apikey: watsonApiKey }),
+  version: '2018-04-05',
+  url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
+});
+ 
+/*nlu.analyze(
+  {
+    text: `Hi I'm Mickael Jackson and I like doing the moonwalker dance move`,
+    features: {
+      keywords: {}
+    }
+  })
+  .then(response => {
+    console.log(JSON.stringify(response.result, null, 2));
+    process.exit(0)
+  })
+  .catch(err => {
+    console.log('error: ', err);
+    process.exit(0)
+  }
+  );*/
 
 async function robot(content) {
     await fetchContentFromWikipedia(content) //baixa conteudo wikipidia
