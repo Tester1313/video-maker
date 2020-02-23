@@ -17,8 +17,11 @@ async function robot(content) {
   await fetchContentFromWikipedia(content) //baixa conteudo wikipidia
   sanitizeContent(content) //limpar conteudo
   breakContentIntoSentences(content) //quebra conteudo
+  limitMaximunSenteces(content)
+  await fetchKeyWordsOfAllSentences(content)
 
   async function fetchContentFromWikipedia(content) {
+    //TODO alterar para consultar api do wikipedia
     const algoritmiaAuthenticated = algoritmia(algorithmiaApiKey)
     const wikipediaAlgorithm = algoritmiaAuthenticated.algo('web/WikipediaParser/0.1.2')
     const wikipediaResponse = await wikipediaAlgorithm.pipe(content.searchTerm)
@@ -71,6 +74,16 @@ async function robot(content) {
     })
   }
 
+  function limitMaximunSenteces(content) {
+    //Limita quantidades de sentencas para não consultar todas no IBM watson
+    content.sentences = content.sentences.slice(0, content.maximumSentences)
+  }
+
+  async function fetchKeyWordsOfAllSentences(content) {
+    for (const sentence of content.sentences) {
+     sentence.keywords = await fetchWatsonAndReturnKeywords(sentence.text)
+    }
+  }
 
   async function fetchWatsonAndReturnKeywords(sentence) {
     return new Promise((resolve, reject) => {
@@ -84,8 +97,8 @@ async function robot(content) {
           if (error) {
             throw error
           }
-
-          const keywords = response.keywords.map((keyword) => {
+          
+          const keywords = response.result.keywords.map((keyword) => {
             return keyword.text
           })
 
