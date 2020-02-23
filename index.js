@@ -1,10 +1,12 @@
 const readline = require('readline-sync')
-const robots ={
+const robots = {
     text: require('./robots/text.js')
 }
 
 async function start() {
-    const content = {}
+    const content = {
+        maximumSentences: 7
+    }
 
     content.searchTerm = askAndReturnSearchTerm()
     content.prefix = askAndReturnPrefix()
@@ -24,7 +26,7 @@ async function start() {
         return selectedPrefixText;
     }
 
-    console.log(content)
+    console.log(JSON.stringify(content, null, 4))
 }
 
 start()
