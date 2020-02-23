@@ -1,5 +1,5 @@
 const readline = require('readline-sync')
-const robots ={
+const robots = {
     text: require('./robots/text.js')
 }
 
