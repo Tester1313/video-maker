@@ -13,12 +13,17 @@ const nlu = new NaturalLanguageUnderstandingV1({
   url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
 });
 
-async function robot(content) {
+const state = require('./state.js');
+
+async function robot() {
+  const content = state.load();
   await fetchContentFromWikipedia(content) //baixa conteudo wikipidia
   sanitizeContent(content) //limpar conteudo
   breakContentIntoSentences(content) //quebra conteudo
   limitMaximunSenteces(content)
   await fetchKeyWordsOfAllSentences(content)
+
+  state.save(content);
 
   async function fetchContentFromWikipedia(content) {
     //TODO alterar para consultar api do wikipedia
