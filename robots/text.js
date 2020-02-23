@@ -13,23 +13,6 @@ const nlu = new NaturalLanguageUnderstandingV1({
   url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
 });
 
-/*nlu.analyze(
-  {
-    text: `Hi I'm Mickael Jackson and I like doing the moonwalker dance move`,
-    features: {
-      keywords: {}
-    }
-  })
-  .then(response => {
-    console.log(JSON.stringify(response.result, null, 2));
-    process.exit(0)
-  })
-  .catch(err => {
-    console.log('error: ', err);
-    process.exit(0)
-  }
-  );*/
-
 async function robot(content) {
   await fetchContentFromWikipedia(content) //baixa conteudo wikipidia
   sanitizeContent(content) //limpar conteudo
