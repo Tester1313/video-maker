@@ -22,6 +22,7 @@
     "googleapis": "^47.0.0",
     "ibm-watson": "^5.4.0",
     "image-downloader": "^3.5.0",
+    "jest": "^24.9.0",
     "readline-sync": "^1.4.10",
     "sbd": "^1.0.16"
   }
